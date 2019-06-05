@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RootLoadingLayout">
+        <attr name="loadingViewId" format="reference"/>
+        <attr name="loadingEmptyViewId" format="reference"/>
+        <attr name="loadingErrorViewId" format="reference"/>
+    </declare-styleable>
+</resources>
