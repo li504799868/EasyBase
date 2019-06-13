@@ -81,6 +81,7 @@ object ScreenUtils {
      * @param context
      * @return
      */
+    @SuppressLint("PrivateApi")
     @JvmStatic
     fun getStatusHeight(context: Context): Int {
         var statusHeight = -1

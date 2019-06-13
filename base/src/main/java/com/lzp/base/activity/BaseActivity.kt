@@ -1,11 +1,11 @@
 package com.lzp.base.activity
 
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.v7.app.AppCompatActivity
 import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
+import androidx.appcompat.app.AppCompatActivity
 import com.lzp.base.R
 import com.lzp.base.fragment.BaseFragment
 import com.lzp.base.view.RootLoadingLayout

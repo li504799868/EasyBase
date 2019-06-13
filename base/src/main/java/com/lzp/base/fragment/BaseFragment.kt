@@ -1,6 +1,6 @@
 package com.lzp.base.fragment
 
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 /**
  * Created by li.zhipeng on 2019-06-05.

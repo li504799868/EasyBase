@@ -1,10 +1,10 @@
 package com.lzp.base.view
 
 import android.content.Context
-import android.support.annotation.LayoutRes
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
+import androidx.annotation.LayoutRes
 import com.lzp.base.R
 
 /**
