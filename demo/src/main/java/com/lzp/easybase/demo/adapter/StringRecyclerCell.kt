@@ -7,7 +7,7 @@ import com.lzp.easybase.demo.R
 
 class StringRecyclerCell : BaseRecyclerCell<String> {
 
-    override fun getItemViewType(): Int = 0
+    override fun getItemViewType(): Int = 2
 
     override fun getLayoutId(): Int = R.layout.cell_string
 

@@ -14,13 +14,13 @@ class MainActivity : BaseNavigationActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = BaseRecyclerAdapter(
-            this,
-            arrayListOf(
-                "1111", "1111", "1111", "1111", "1111", R.mipmap.ic_launcher_round,
-                "1111", "1111", "1111", "1111", "1111", R.mipmap.ic_launcher_round,
-                "1111", "1111", "1111", "1111", "1111", R.mipmap.ic_launcher_round,
-                "1111", "1111", "1111", "1111", "1111", R.mipmap.ic_launcher_round
-            )
+                this,
+                arrayListOf(
+                        "1111", "1111", "1111", "1111", "1111", R.mipmap.ic_launcher_round,
+                        "1111", "1111", "1111", "1111", "1111", R.mipmap.ic_launcher_round,
+                        "1111", "1111", "1111", "1111", "1111", R.mipmap.ic_launcher_round,
+                        "1111", "1111", "1111", "1111", "1111", R.mipmap.ic_launcher_round
+                )
 //            arrayListOf(
 //                R.mipmap.ic_launcher_round,
 //                R.mipmap.ic_launcher_round,
@@ -29,6 +29,8 @@ class MainActivity : BaseNavigationActivity() {
 //            )
 
         )
+        adapter.addHeaderView(layoutInflater.inflate(R.layout.header, recyclerView, false))
+        adapter.addFooterView(layoutInflater.inflate(R.layout.footer, recyclerView, false))
         adapter.registerRecyclerCell(String::class.java, StringRecyclerCell())
         adapter.registerRecyclerCell(Integer::class.java, ImageRecyclerCell())
         recyclerView.adapter = adapter
