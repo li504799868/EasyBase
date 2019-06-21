@@ -35,9 +35,9 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
     private val headerViewTypes = ArrayList<Int>()
     private val footerViewTypes = ArrayList<Int>()
 
-    private val cellMapByClass = hashMapOf<Class<*>, BaseRecyclerCell<*>>()
-
-    private val cellMapByViewType = SparseArray<BaseRecyclerCell<*>>()
+    private val cellMapClassToCell = hashMapOf<Class<*>, BaseRecyclerCell<*>>()
+    private val cellMapClassToType = hashMapOf<Class<*>, Int>()
+    private val cellMapTypeToCell = SparseArray<BaseRecyclerCell<*>>()
 
     /**
      * 可以添加多个头视图
@@ -103,16 +103,18 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
     /**
      * 注册Adapter中要使用的cell
      *
+     *  @param viewType 因为要添加header，所以0已经被占用，请不要使用0作为type，请从1开始
      *  @param clazz 如果是基本类型，请注意使用包装类
      * */
-    fun registerRecyclerCell(clazz: Class<*>, cell: BaseRecyclerCell<*>) {
-        cellMapByClass[clazz] = cell
-        cellMapByViewType.put(cell.getItemViewType(), cell)
+    fun registerRecyclerCell(viewType: Int, clazz: Class<*>, cell: BaseRecyclerCell<*>) {
+        cellMapClassToCell[clazz] = cell
+        cellMapClassToType[clazz] = viewType
+        cellMapTypeToCell.put(viewType, cell)
     }
 
-    private fun getRecyclerCellByClass(position: Int): BaseRecyclerCell<*> {
+    private fun getRecyclerCellViewType(position: Int): Int {
         val clazz = (list[position])::class.java as Class<*>
-        return cellMapByClass[clazz]!!
+        return cellMapClassToType[clazz]!!
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -128,7 +130,7 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
             return position * TYPE_VIEW
         }
         // 返回数据Cell的type
-        return getRecyclerCellByClass(position - headerViews.size).getItemViewType()
+        return getRecyclerCellViewType(position - headerViews.size)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder {
@@ -143,7 +145,7 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
             return BaseRecyclerViewHolder(footerViews[index])
         }
 
-        val layoutId = cellMapByViewType.get(viewType).getLayoutId()
+        val layoutId = cellMapTypeToCell.get(viewType).getLayoutId()
         return BaseRecyclerViewHolder(LayoutInflater.from(context).inflate(layoutId, parent, false))
     }
 
@@ -159,7 +161,8 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
             return
         }
         // 显示cell
-        getRecyclerCellByClass(position).convertViewWrapper(holder, list[position], position)
+        val clazz = (list[position - headerViews.size])::class.java as Class<*>
+        cellMapClassToCell[clazz]!!.convertViewWrapper(holder, list[position - headerViews.size], position)
     }
 
     /**

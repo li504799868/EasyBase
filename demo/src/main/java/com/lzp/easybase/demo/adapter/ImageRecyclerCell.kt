@@ -1,6 +1,6 @@
 package com.lzp.easybase.demo.adapter
 
-import android.widget.TextView
+import android.widget.ImageView
 import com.lzp.easybase.adapter.BaseRecyclerAdapter
 import com.lzp.easybase.adapter.BaseRecyclerCell
 import com.lzp.easybase.demo.R
@@ -10,11 +10,9 @@ import com.lzp.easybase.demo.R
  * */
 class ImageRecyclerCell : BaseRecyclerCell<Int> {
 
-    override fun getItemViewType(): Int = 1
-
-    override fun getLayoutId(): Int = R.layout.cell_string
+    override fun getLayoutId(): Int = R.layout.cell_image
 
     override fun convertView(holder: BaseRecyclerAdapter.BaseRecyclerViewHolder, item: Int, position: Int) {
-        holder.findViewById<TextView>(R.id.text).setBackgroundResource(item)
+        holder.findViewById<ImageView>(R.id.image).setImageResource(item)
     }
 }

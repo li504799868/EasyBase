@@ -44,7 +44,6 @@ class RootLoadingLayout @JvmOverloads constructor(
     private lateinit var contentView: View
 
     var onRootLoadingLayoutListener: OnRootLoadingLayoutListener? = null
-        private set
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.RootLoadingLayout)
@@ -79,7 +78,7 @@ class RootLoadingLayout @JvmOverloads constructor(
     fun showLoading() {
         if (!this::loadingView.isInitialized) {
             loadingView = View.inflate(context, loadingViewId, this)
-            loadingView.setOnClickListener{
+            loadingView.setOnClickListener {
                 onRootLoadingLayoutListener?.onLoadingViewClick()
             }
         }
@@ -103,7 +102,7 @@ class RootLoadingLayout @JvmOverloads constructor(
         // 初始化加载为空的布局
         if (!this::loadingEmptyView.isInitialized) {
             loadingEmptyView = View.inflate(context, loadingEmptyViewId, this)
-            loadingEmptyView.setOnClickListener{
+            loadingEmptyView.setOnClickListener {
                 onRootLoadingLayoutListener?.onLoadEmptyViewClick()
             }
         }
@@ -127,7 +126,7 @@ class RootLoadingLayout @JvmOverloads constructor(
         // 初始化加载为空的布局
         if (!this::loadingErrorView.isInitialized) {
             loadingErrorView = View.inflate(context, loadingErrorViewId, this)
-            loadingErrorView.setOnClickListener{
+            loadingErrorView.setOnClickListener {
                 onRootLoadingLayoutListener?.onLoadErrorViewClick()
             }
         }
@@ -146,6 +145,45 @@ class RootLoadingLayout @JvmOverloads constructor(
         }
 
     }
+
+    fun showContent() {
+        if (this::contentView.isInitialized) {
+            contentView.visibility = View.VISIBLE
+        }
+
+        if (this::loadingView.isInitialized) {
+            loadingView.visibility = View.GONE
+        }
+
+        if (this::loadingEmptyView.isInitialized) {
+            loadingEmptyView.visibility = View.GONE
+        }
+
+        if (this::loadingErrorView.isInitialized) {
+            contentView.visibility = View.GONE
+        }
+
+    }
+
+    /**
+     *  是否正在显示加载中
+     * */
+    fun isLoadingShow() = this::loadingView.isInitialized && loadingView.visibility == View.VISIBLE
+
+    /**
+     *  是否正在显示加载错误
+     * */
+    fun isLoadErrorShow() = this::loadingErrorView.isInitialized && loadingErrorView.visibility == View.VISIBLE
+
+    /**
+     *  是否正在显示加载为空
+     * */
+    fun isLoadEmptyShow() = this::loadingEmptyView.isInitialized && loadingEmptyView.visibility == View.VISIBLE
+
+    /**
+     *  是否正在显示内容
+     * */
+    fun isContentShow() = this::contentView.isInitialized && contentView.visibility == View.VISIBLE
 
     /**
      * 回调监听，可以在点击对应布局进行重试操作
