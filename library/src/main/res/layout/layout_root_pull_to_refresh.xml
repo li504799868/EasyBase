@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<in.srain.cube.views.ptr.PtrFrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ptr_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.lzp.easybase.view.RootLoadingLayout
+            android:id="@+id/root_loading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+</in.srain.cube.views.ptr.PtrFrameLayout>

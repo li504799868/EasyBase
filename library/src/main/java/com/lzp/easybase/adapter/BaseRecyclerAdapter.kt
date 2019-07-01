@@ -1,13 +1,12 @@
 package com.lzp.easybase.adapter
 
 import android.content.Context
-import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
-import java.util.ArrayList
+import java.util.*
 
 /**
  * @author li.zhipeng on 2019.6.13
@@ -20,9 +19,7 @@ import java.util.ArrayList
 class BaseRecyclerAdapter<T : Any>(private val context: Context, private val list: List<T>) :
     RecyclerView.Adapter<BaseRecyclerAdapter.BaseRecyclerViewHolder>() {
 
-    companion object {
-        private const val TYPE_VIEW = 10000
-    }
+    private val multiTypeDelegate = MultiTypeDelegate()
 
     /**头视图*/
     private val headerViews = ArrayList<View>()
@@ -31,13 +28,6 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
      *  Footer
      * */
     private val footerViews = ArrayList<View>()
-
-    private val headerViewTypes = ArrayList<Int>()
-    private val footerViewTypes = ArrayList<Int>()
-
-    private val cellMapClassToCell = hashMapOf<Class<*>, BaseRecyclerCell<*>>()
-    private val cellMapClassToType = hashMapOf<Class<*>, Int>()
-    private val cellMapTypeToCell = SparseArray<BaseRecyclerCell<*>>()
 
     /**
      * 可以添加多个头视图
@@ -107,27 +97,23 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
      *  @param clazz 如果是基本类型，请注意使用包装类
      * */
     fun registerRecyclerCell(viewType: Int, clazz: Class<*>, cell: BaseRecyclerCell<*>) {
-        cellMapClassToCell[clazz] = cell
-        cellMapClassToType[clazz] = viewType
-        cellMapTypeToCell.put(viewType, cell)
+        multiTypeDelegate.registerRecyclerCell(viewType, clazz, cell)
     }
 
     private fun getRecyclerCellViewType(position: Int): Int {
         val clazz = (list[position])::class.java as Class<*>
-        return cellMapClassToType[clazz]!!
+        return multiTypeDelegate.getRecyclerCellViewType(clazz)
     }
 
     override fun getItemViewType(position: Int): Int {
         // 判断是否是header
         if (position < headerViews.size) {
-            headerViewTypes.add(position * TYPE_VIEW)
-            return position * TYPE_VIEW
+            return multiTypeDelegate.getHeaderViewType(position)
         }
 
         // 判断是否是footer
         if (footerViews.size > 0 && position >= list.size + headerViews.size) {
-            footerViewTypes.add(position * TYPE_VIEW)
-            return position * TYPE_VIEW
+            return multiTypeDelegate.getFooterViewType(position)
         }
         // 返回数据Cell的type
         return getRecyclerCellViewType(position - headerViews.size)
@@ -135,17 +121,17 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder {
         // 返回header
-        if (headerViewTypes.contains(viewType)) {
-            return BaseRecyclerViewHolder(headerViews[viewType / TYPE_VIEW])
+        if (multiTypeDelegate.headerViewTypes.contains(viewType)) {
+            return BaseRecyclerViewHolder(headerViews[multiTypeDelegate.getHeaderIndexByViewType(viewType)])
         }
 
         // 返回footer
-        if (footerViewTypes.contains(viewType)) {
-            val index = viewType / TYPE_VIEW - list.size - headerViews.size
+        if (multiTypeDelegate.footerViewTypes.contains(viewType)) {
+            val index = multiTypeDelegate.getFooterIndexByViewType(viewType) - list.size - headerViews.size
             return BaseRecyclerViewHolder(footerViews[index])
         }
 
-        val layoutId = cellMapTypeToCell.get(viewType).getLayoutId()
+        val layoutId = multiTypeDelegate.getLayoutIdByViewType(viewType)
         return BaseRecyclerViewHolder(LayoutInflater.from(context).inflate(layoutId, parent, false))
     }
 
@@ -162,7 +148,7 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
         }
         // 显示cell
         val clazz = (list[position - headerViews.size])::class.java as Class<*>
-        cellMapClassToCell[clazz]!!.convertViewWrapper(holder, list[position - headerViews.size], position)
+        multiTypeDelegate.getRecyclerCell(clazz).convertViewWrapper(holder, list[position - headerViews.size], position)
     }
 
     /**
