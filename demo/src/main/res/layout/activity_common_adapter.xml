@@ -7,16 +7,9 @@
               android:orientation="vertical"
               tools:context=".MainActivity">
 
-    <Button
-            android:id="@+id/adapter"
-            android:text="CommonAdapter"
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-    <Button
-            android:id="@+id/list_activity"
-            android:text="ListActivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
 
 </LinearLayout>

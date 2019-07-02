@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
-import androidx.annotation.IntegerRes
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import com.lzp.easybase.R
 import com.lzp.easybase.view.RootLoadingLayout

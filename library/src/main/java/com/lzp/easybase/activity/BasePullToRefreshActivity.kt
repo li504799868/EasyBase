@@ -1,4 +1,4 @@
-package com.lzp.easybase.fragment
+package com.lzp.easybase.activity
 
 import `in`.srain.cube.views.ptr.PtrDefaultHandler
 import `in`.srain.cube.views.ptr.PtrFrameLayout
@@ -9,10 +9,10 @@ import com.lzp.easybase.util.NetUtil
 /***
  * @author li.zhipeng on 2019.6.14
  *
- * 可以下拉刷新的Fragment
+ * 可以下拉刷新的Activity
  *
  */
-abstract class BasePullToRefreshFragment : BaseFragment() {
+abstract class BasePullToRefreshActivity : BaseNavigationActivity() {
 
     companion object {
         private const val REFRESH_COMPLETE_DELAY = 1000L
@@ -20,10 +20,7 @@ abstract class BasePullToRefreshFragment : BaseFragment() {
 
     protected var ptrFrameLayout: PtrFrameLayout? = null
 
-    override fun initLayout(): Int = R.layout.layout_root_pull_to_refresh
-
     override fun initView() {
-        super.initView()
         initPtrFrameLayout()
     }
 
@@ -33,16 +30,16 @@ abstract class BasePullToRefreshFragment : BaseFragment() {
             ptrFrameLayout!!.setPtrHandler(object : PtrDefaultHandler() {
                 override fun onRefreshBegin(frame: PtrFrameLayout) {
                     // 如果有网络，刷新数据
-                    if (NetUtil.isNetConnected(context)) {
+                    if (NetUtil.isNetConnected(this@BasePullToRefreshActivity)) {
                         onRefresh()
                     } else {
                         ptrFrameLayout!!.postDelayed({
-                            ptrFrameLayout!!.refreshComplete()
+                            refreshComplete()
                         }, REFRESH_COMPLETE_DELAY)
                     }
                 }
             })
-            ptrFrameLayout!!.isPullToRefresh = true
+            ptrFrameLayout!!.isPullToRefresh = false
             ptrFrameLayout!!.isKeepHeaderWhenRefresh = true
             ptrFrameLayout!!.setRefreshCompleteHook(object : PtrUIHandlerHook() {
                 override fun run() {

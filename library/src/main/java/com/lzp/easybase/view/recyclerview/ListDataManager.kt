@@ -29,10 +29,10 @@ class ListDataManager<T> {
 
     var compareListener: ItemCompareListener<T>? = null
 
-    var data: MutableList<T>? = ArrayList()
+    var data: MutableList<T> = ArrayList()
 
     internal val count: Int
-        get() = data!!.size
+        get() = data.size
 
     fun setListener(listener: ListDataListener<T>) {
         mListener = listener
@@ -44,11 +44,11 @@ class ListDataManager<T> {
     }
 
     private fun addResultFinally(result: List<T>) {
-        data!!.addAll(result)
+        data.addAll(result)
     }
 
     internal fun reset() {
-        data!!.clear()
+        data.clear()
         page = 1
         pageTag = FIRST_PAGE
         this.isLastPage = true
@@ -64,7 +64,7 @@ class ListDataManager<T> {
         // 如果是第一页，要清除之前的数据
         if (FIRST_PAGE == pageTag) {
             //刷新
-            data!!.clear()
+            data.clear()
         }
         //加载到末尾
         addData(rsp, isLastPage)
@@ -78,7 +78,7 @@ class ListDataManager<T> {
         this.page = page
         if (1 == page) {
             //刷新
-            data!!.clear()
+            data.clear()
         }
         //加载到末尾
         addData(rsp, isLastPage)
@@ -117,7 +117,7 @@ class ListDataManager<T> {
     }
 
     fun hasData(): Boolean {
-        return data != null && data!!.isNotEmpty()
+        return data.isNotEmpty()
     }
 
     interface ItemCompareListener<T> {
@@ -133,6 +133,6 @@ class ListDataManager<T> {
         /**
          * 默认返回的第一页的String类型的页码
          */
-        private const val FIRST_PAGE = "first"
+        const val FIRST_PAGE = "first"
     }
 }

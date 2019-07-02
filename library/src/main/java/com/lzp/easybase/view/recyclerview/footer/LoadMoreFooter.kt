@@ -1,13 +1,15 @@
-package com.lzp.easybase.view.recyclerview
+package com.lzp.easybase.view.recyclerview.footer
+
+import android.view.View
 
 /**
  *  @author  li.zhipeng on 2019/06/17
  *
  *          滑动到底部的Footer，显示加载过程的各种状态
  * */
-abstract class LoadMoreFooter {
+abstract class LoadMoreFooter() {
 
-    companion object{
+    companion object {
 
         const val NORMAL = 0
 
@@ -22,6 +24,9 @@ abstract class LoadMoreFooter {
          * */
         const val LOAD_END = 4
     }
+
+
+    abstract fun getContentView(): View
 
     private var currentStatus = NORMAL
 

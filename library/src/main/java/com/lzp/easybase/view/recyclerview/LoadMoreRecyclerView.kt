@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.lzp.easybase.adapter.BaseRecyclerAdapter
+import com.lzp.easybase.adapter.CommonRecyclerAdapter
+import com.lzp.easybase.view.recyclerview.footer.DefaultLoadMoreFooter
+import com.lzp.easybase.view.recyclerview.footer.LoadMoreFooter
 
 /**
  * @author li.zhipeng on 2017/10/19.
@@ -20,7 +22,7 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
 ) : RecyclerView(context, attrs, defStyle) {
 
     private var mListDataManager: ListDataManager<T> = ListDataManager()
-    private var adapter: BaseRecyclerAdapter<T>? = null
+    private var adapter: CommonRecyclerAdapter<T>? = null
     private var listener: OnLoadMoreListener? = null
 
     /**
@@ -31,36 +33,35 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
     /**
      * 加载更多的Footer
      */
-    var loadMoreFooter: LoadMoreFooter? = null
+    var loadMoreFooter: LoadMoreFooter? = DefaultLoadMoreFooter(context, this)
 
     private// 如果不需要滑动到底部加载，直接返回
     // 如果是正在加载中，不需要加载下一页
     // 如果已经是最后一页，就不需要加载最后一页
-    val endlessRecyclerOnScrollListener: EndlessRecyclerOnScrollListener
-        get() = object : EndlessRecyclerOnScrollListener() {
-            override fun onLoadNextPage(view: View) {
-                super.onLoadNextPage(view)
-                if (!scrollToLoad) {
+    val endlessRecyclerOnScrollListener: EndlessRecyclerOnScrollListener = object : EndlessRecyclerOnScrollListener() {
+        override fun onLoadNextPage(view: View) {
+            super.onLoadNextPage(view)
+            if (!scrollToLoad) {
+                return
+            }
+            if (loadMoreFooter != null) {
+                if (loadMoreFooter!!.getLoadStatus() == LoadMoreFooter.LOADING) {
                     return
-                }
-                if (loadMoreFooter != null) {
-                    if (loadMoreFooter!!.getLoadStatus() == LoadMoreFooter.LOADING) {
-                        return
-                    }
-                }
-                if (mListDataManager.isLastPage) {
-                    return
-                }
-
-                if (listener != null) {
-                    loadMoreFooter!!.showLoadStatus(LoadMoreFooter.LOADING)
-                    listener!!.requestPageIndex(mListDataManager.page, mListDataManager.pageTag)
                 }
             }
+            if (mListDataManager.isLastPage) {
+                return
+            }
 
+            if (listener != null) {
+                loadMoreFooter?.showLoadStatus(LoadMoreFooter.LOADING)
+                listener!!.requestPageIndex(mListDataManager.page.inc(), mListDataManager.pageTag)
+            }
         }
 
-    val data: List<T>?
+    }
+
+    val data: List<T>
         get() = mListDataManager.data
 
     init {
@@ -75,8 +76,11 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
     }
 
     override fun setAdapter(adapter: Adapter<*>?) {
-        if (adapter is BaseRecyclerAdapter<*>) {
-            this.adapter = adapter as BaseRecyclerAdapter<T>
+        if (adapter is CommonRecyclerAdapter<*>) {
+            this.adapter = adapter as CommonRecyclerAdapter<T>
+            if (loadMoreFooter != null) {
+                adapter.addFooterView(loadMoreFooter!!.getContentView())
+            }
         }
         super.setAdapter(adapter)
     }
@@ -102,7 +106,7 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
     }
 
 
-    fun setLastPage(list: List<T>, page: Int) {
+    fun onGetData(list: List<T>, page: Int) {
         mListDataManager.onGetListComplete(list, page)
         adapter!!.notifyDataSetChanged()
         if (mListDataManager.isLastPage) {
@@ -112,7 +116,7 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
         }
     }
 
-    fun setLastPage(list: List<T>, page: Int, isLast: Boolean) {
+    fun onGetData(list: List<T>, page: Int, isLast: Boolean) {
         mListDataManager.onGetListComplete(list, page)
         adapter!!.notifyDataSetChanged()
         if (isLast) {
@@ -122,7 +126,7 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
         }
     }
 
-    override fun getAdapter(): BaseRecyclerAdapter<T>? {
+    override fun getAdapter(): CommonRecyclerAdapter<T>? {
         return adapter
     }
 

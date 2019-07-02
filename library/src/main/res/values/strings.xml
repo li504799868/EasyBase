@@ -2,6 +2,8 @@
     <string name="app_name">base</string>
 
     <string name="loading">加载中…</string>
+    <string name="load_success">加载中…</string>
     <string name="load_error">加载失败</string>
+    <string name="load_end">已经到底部了</string>
     <string name="empty">什么也没有</string>
 </resources>

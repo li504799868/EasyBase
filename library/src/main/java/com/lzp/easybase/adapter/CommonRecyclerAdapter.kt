@@ -16,8 +16,8 @@ import java.util.*
  *      泛型T的作用：如果是是单一布局，方便对OnItemClick做类型转换
  *                          如果是多类型布局,建议使用基类，然后根据需要自行转换
  * */
-class BaseRecyclerAdapter<T : Any>(private val context: Context, private val list: List<T>) :
-    RecyclerView.Adapter<BaseRecyclerAdapter.BaseRecyclerViewHolder>() {
+class CommonRecyclerAdapter<T : Any>(private val context: Context, private val list: List<T>) :
+    RecyclerView.Adapter<CommonRecyclerAdapter.BaseRecyclerViewHolder>() {
 
     private val multiTypeDelegate = MultiTypeDelegate()
 
@@ -75,9 +75,9 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
     }
 
     /**
-     * 可以添加多个头视图
+     * 可以添加Footer
      *
-     * @param headerView
+     * @param footerView
      */
     fun addFooterView(footerView: View, position: Int) {
         if (footerViews.contains(footerView)) {
@@ -143,12 +143,13 @@ class BaseRecyclerAdapter<T : Any>(private val context: Context, private val lis
             return
         }
         // 判断是否是footer
-        if (footerViews.size > 0 && position >= list.size - 1 + headerViews.size) {
+        if (footerViews.size > 0 && position >= list.size + headerViews.size) {
             return
         }
         // 显示cell
         val clazz = (list[position - headerViews.size])::class.java as Class<*>
-        multiTypeDelegate.getRecyclerCell(clazz).convertViewWrapper(holder, list[position - headerViews.size], position)
+        multiTypeDelegate.getRecyclerCell(clazz)
+            .convertViewWrapper(holder, list[position - headerViews.size], position - headerViews.size)
     }
 
     /**

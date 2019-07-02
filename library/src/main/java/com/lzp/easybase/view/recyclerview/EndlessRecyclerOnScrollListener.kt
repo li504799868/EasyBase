@@ -71,7 +71,7 @@ open class EndlessRecyclerOnScrollListener : RecyclerView.OnScrollListener() {
         val visibleItemCount = layoutManager!!.childCount
         val totalItemCount = layoutManager.itemCount
         // 只有在滚动停止状态才加载下一页
-        if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition >= totalItemCount - LOAD_NEXT_PAGE_OFFSET) {
+        if (visibleItemCount > 0 && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItemPosition >= totalItemCount - 1 - LOAD_NEXT_PAGE_OFFSET) {
             onLoadNextPage(recyclerView)
         }
     }
