@@ -1,11 +1,9 @@
-package com.lzp.easybase
+package com.lzp.easybase.demo.adapter
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lzp.easybase.activity.BaseNavigationActivity
 import com.lzp.easybase.adapter.CommonRecyclerAdapter
 import com.lzp.easybase.demo.R
-import com.lzp.easybase.demo.adapter.ImageRecyclerCell
-import com.lzp.easybase.demo.adapter.StringRecyclerCell
 import kotlinx.android.synthetic.main.activity_common_adapter.*
 
 class CommonAdapterActivity : BaseNavigationActivity() {

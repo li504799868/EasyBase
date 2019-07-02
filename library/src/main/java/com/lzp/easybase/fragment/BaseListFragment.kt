@@ -35,6 +35,11 @@ abstract class BaseListFragment<T : Any> : BasePullToRefreshFragment(), LoadMore
         commonRecyclerAdapter.registerRecyclerCell(viewType, clazz, cell)
     }
 
+    override fun lazyLoad() {
+        super.lazyLoad()
+        onRefresh()
+    }
+
     override fun onRefresh() {
         requestPageIndex(1, ListDataManager.FIRST_PAGE)
     }

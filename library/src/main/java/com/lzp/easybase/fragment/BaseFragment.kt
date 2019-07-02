@@ -32,7 +32,7 @@ abstract class BaseFragment : Fragment(), RootLoadingLayout.OnRootLoadingLayoutL
     protected var isLazyLoad = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        if (this::rootView.isInitialized) {
+        if (!this::rootView.isInitialized) {
             rootView = inflater.inflate(R.layout.layout_root, container, false)
             rootLoadingLayout = rootView.findViewById(R.id.root_loading_layout)
             rootLoadingLayout.onRootLoadingLayoutListener = this
