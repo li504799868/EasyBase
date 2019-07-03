@@ -22,19 +22,21 @@ class MultiTypeDelegate {
     private val cellMapTypeToCell = SparseArray<BaseRecyclerCell<*>>()
 
     fun getHeaderViewType(position: Int): Int {
-        headerViewTypes.add(position * TYPE_VIEW)
-        return position * TYPE_VIEW
+        val headerType = position + TYPE_VIEW
+        headerViewTypes.add(headerType)
+        return headerType
     }
 
 
     fun getFooterViewType(position: Int): Int {
-        footerViewTypes.add(position * TYPE_VIEW)
-        return position * TYPE_VIEW
+        val footerType = position + TYPE_VIEW
+        footerViewTypes.add(footerType)
+        return footerType
     }
 
-    fun getHeaderIndexByViewType(viewType: Int) = viewType / TYPE_VIEW
+    fun getHeaderIndexByViewType(viewType: Int) = viewType - TYPE_VIEW
 
-    fun getFooterIndexByViewType(viewType: Int) = viewType / TYPE_VIEW
+    fun getFooterIndexByViewType(viewType: Int) = viewType - TYPE_VIEW
 
     /**
      * 注册Adapter中要使用的cell

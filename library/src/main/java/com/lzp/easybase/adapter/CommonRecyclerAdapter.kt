@@ -19,7 +19,7 @@ import java.util.*
 class CommonRecyclerAdapter<T : Any>(private val context: Context, private val list: List<T>) :
     RecyclerView.Adapter<CommonRecyclerAdapter.BaseRecyclerViewHolder>() {
 
-    private val multiTypeDelegate = MultiTypeDelegate()
+    var multiTypeDelegate = MultiTypeDelegate()
 
     /**头视图*/
     private val headerViews = ArrayList<View>()

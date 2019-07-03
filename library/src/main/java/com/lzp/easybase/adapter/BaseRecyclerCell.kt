@@ -2,11 +2,6 @@ package com.lzp.easybase.adapter
 
 interface BaseRecyclerCell<T> {
 
-//    /**
-//     *  因为要添加header，所以0已经被占用，请不要使用0作为type，默认返回1
-//     * */
-//    fun getItemViewType(): Int = 1
-
     fun getLayoutId(): Int
 
     /**

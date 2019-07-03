@@ -30,8 +30,8 @@ class CommonAdapterActivity : BaseNavigationActivity() {
         )
         adapter.addHeaderView(layoutInflater.inflate(R.layout.header, recyclerView, false))
         adapter.addFooterView(layoutInflater.inflate(R.layout.footer, recyclerView, false))
-        adapter.registerRecyclerCell(1, String::class.java, StringRecyclerCell())
-        adapter.registerRecyclerCell(2, Integer::class.java, ImageRecyclerCell())
+        adapter.registerRecyclerCell(0, String::class.java, StringRecyclerCell())
+        adapter.registerRecyclerCell(1, Integer::class.java, ImageRecyclerCell())
         recyclerView.adapter = adapter
     }
 
