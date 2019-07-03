@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
 
@@ -16,10 +15,10 @@ import java.util.*
  *      泛型T的作用：如果是是单一布局，方便对OnItemClick做类型转换
  *                          如果是多类型布局,建议使用基类，然后根据需要自行转换
  * */
-class CommonRecyclerAdapter<T : Any>(private val context: Context, private val list: List<T>) :
-    RecyclerView.Adapter<CommonRecyclerAdapter.BaseRecyclerViewHolder>() {
+class CommonRecyclerAdapter(private val context: Context, private val list: List<Any>) :
+    RecyclerView.Adapter<CommonViewHolder>() {
 
-    var multiTypeDelegate = MultiTypeDelegate()
+    var multiTypeDelegate = CommonMultiTypeDelegate()
 
     /**头视图*/
     private val headerViews = ArrayList<View>()
@@ -96,12 +95,12 @@ class CommonRecyclerAdapter<T : Any>(private val context: Context, private val l
      *  @param viewType 因为要添加header，所以0已经被占用，请不要使用0作为type，请从1开始
      *  @param clazz 如果是基本类型，请注意使用包装类
      * */
-    fun registerRecyclerCell(viewType: Int, clazz: Class<*>, cell: BaseRecyclerCell<*>) {
+    fun registerRecyclerCell(viewType: Int, clazz: Class<*>, cell: BaseAdapterCell<*>) {
         multiTypeDelegate.registerRecyclerCell(viewType, clazz, cell)
     }
 
     private fun getRecyclerCellViewType(position: Int): Int {
-        val clazz = (list[position])::class.java as Class<*>
+        val clazz = (list[position])::class.java
         return multiTypeDelegate.getRecyclerCellViewType(clazz)
     }
 
@@ -119,25 +118,25 @@ class CommonRecyclerAdapter<T : Any>(private val context: Context, private val l
         return getRecyclerCellViewType(position - headerViews.size)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseRecyclerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         // 返回header
         if (multiTypeDelegate.headerViewTypes.contains(viewType)) {
-            return BaseRecyclerViewHolder(headerViews[multiTypeDelegate.getHeaderIndexByViewType(viewType)])
+            return CommonViewHolder(headerViews[multiTypeDelegate.getHeaderIndexByViewType(viewType)])
         }
 
         // 返回footer
         if (multiTypeDelegate.footerViewTypes.contains(viewType)) {
             val index = multiTypeDelegate.getFooterIndexByViewType(viewType) - list.size - headerViews.size
-            return BaseRecyclerViewHolder(footerViews[index])
+            return CommonViewHolder(footerViews[index])
         }
 
         val layoutId = multiTypeDelegate.getLayoutIdByViewType(viewType)
-        return BaseRecyclerViewHolder(LayoutInflater.from(context).inflate(layoutId, parent, false))
+        return CommonViewHolder(LayoutInflater.from(context).inflate(layoutId, parent, false))
     }
 
     override fun getItemCount(): Int = list.size + headerViews.size + footerViews.size
 
-    override fun onBindViewHolder(holder: BaseRecyclerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: CommonViewHolder, position: Int) {
         // 如果是header或者footer，adapter不负责显示
         if (position < headerViews.size) {
             return
@@ -147,19 +146,9 @@ class CommonRecyclerAdapter<T : Any>(private val context: Context, private val l
             return
         }
         // 显示cell
-        val clazz = (list[position - headerViews.size])::class.java as Class<*>
+        val clazz = (list[position - headerViews.size])::class.java
         multiTypeDelegate.getRecyclerCell(clazz)
             .convertViewWrapper(holder, list[position - headerViews.size], position - headerViews.size)
-    }
-
-    /**
-     *  公用的RecyclerAdapter的ViewHolder
-     * */
-    class BaseRecyclerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        fun <T : View> findViewById(@IdRes id: Int): T {
-            return itemView.findViewById(id)
-        }
     }
 
 }

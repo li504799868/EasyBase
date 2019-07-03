@@ -1,11 +1,10 @@
 package com.lzp.easybase.fragment
 
 import com.lzp.easybase.R
-import com.lzp.easybase.adapter.BaseRecyclerCell
+import com.lzp.easybase.adapter.BaseAdapterCell
 import com.lzp.easybase.adapter.CommonRecyclerAdapter
 import com.lzp.easybase.view.recyclerview.ListDataManager
 import com.lzp.easybase.view.recyclerview.LoadMoreRecyclerView
-import kotlinx.android.synthetic.main.layout_root_list.*
 
 /***
  *  @author  li.zhipeng on 2019.6.14
@@ -15,7 +14,7 @@ import kotlinx.android.synthetic.main.layout_root_list.*
 abstract class BaseListFragment<T : Any> : BasePullToRefreshFragment(), LoadMoreRecyclerView.OnLoadMoreListener {
 
     protected lateinit var recyclerView: LoadMoreRecyclerView<T>
-    protected lateinit var commonRecyclerAdapter: CommonRecyclerAdapter<T>
+    protected lateinit var commonRecyclerAdapter: CommonRecyclerAdapter
 
     override fun initLayout(): Int = R.layout.layout_root_list
 
@@ -31,7 +30,7 @@ abstract class BaseListFragment<T : Any> : BasePullToRefreshFragment(), LoadMore
 
     abstract fun initRecyclerView()
 
-    fun registerRecyclerCell(viewType: Int, clazz: Class<*>, cell: BaseRecyclerCell<*>) {
+    fun registerRecyclerCell(viewType: Int, clazz: Class<*>, cell: BaseAdapterCell<*>) {
         commonRecyclerAdapter.registerRecyclerCell(viewType, clazz, cell)
     }
 

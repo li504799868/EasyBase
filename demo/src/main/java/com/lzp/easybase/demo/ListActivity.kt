@@ -3,7 +3,7 @@ package com.lzp.easybase.demo
 import android.os.Handler
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lzp.easybase.activity.BaseListActivity
-import com.lzp.easybase.demo.adapter.StringRecyclerCell
+import com.lzp.easybase.demo.adapter.StringAdapterCell
 
 /**
  *
@@ -12,7 +12,7 @@ class ListActivity : BaseListActivity<Any>() {
 
     override fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this)
-        registerRecyclerCell(1, String::class.java, StringRecyclerCell())
+        registerRecyclerCell(1, String::class.java, StringAdapterCell())
     }
 
     override fun initData() {

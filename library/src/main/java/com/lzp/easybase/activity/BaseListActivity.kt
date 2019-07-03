@@ -1,7 +1,7 @@
 package com.lzp.easybase.activity
 
 import com.lzp.easybase.R
-import com.lzp.easybase.adapter.BaseRecyclerCell
+import com.lzp.easybase.adapter.BaseAdapterCell
 import com.lzp.easybase.adapter.CommonRecyclerAdapter
 import com.lzp.easybase.view.recyclerview.ListDataManager
 import com.lzp.easybase.view.recyclerview.LoadMoreRecyclerView
@@ -9,7 +9,7 @@ import com.lzp.easybase.view.recyclerview.LoadMoreRecyclerView
 abstract class BaseListActivity<T : Any> : BasePullToRefreshActivity(), LoadMoreRecyclerView.OnLoadMoreListener {
 
     protected lateinit var recyclerView: LoadMoreRecyclerView<T>
-    protected lateinit var commonRecyclerAdapter: CommonRecyclerAdapter<T>
+    protected lateinit var commonRecyclerAdapter: CommonRecyclerAdapter
 
     override fun initView() {
         setBaseContentView(R.layout.layout_root_list)
@@ -24,7 +24,7 @@ abstract class BaseListActivity<T : Any> : BasePullToRefreshActivity(), LoadMore
 
     abstract fun initRecyclerView()
 
-    fun registerRecyclerCell(viewType: Int, clazz: Class<*>, cell: BaseRecyclerCell<*>) {
+    fun registerRecyclerCell(viewType: Int, clazz: Class<*>, cell: BaseAdapterCell<*>) {
         commonRecyclerAdapter.registerRecyclerCell(viewType, clazz, cell)
     }
 

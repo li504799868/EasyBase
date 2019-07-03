@@ -9,7 +9,13 @@
 
     <Button
             android:id="@+id/adapter"
-            android:text="CommonAdapter"
+            android:text="CommonRecyclerAdapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    <Button
+            android:id="@+id/base_adapter"
+            android:text="CommonBaseAdapter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

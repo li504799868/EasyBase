@@ -22,7 +22,7 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
 ) : RecyclerView(context, attrs, defStyle) {
 
     private var mListDataManager: ListDataManager<T> = ListDataManager()
-    private var adapter: CommonRecyclerAdapter<T>? = null
+    private var adapter: CommonRecyclerAdapter? = null
     private var listener: OnLoadMoreListener? = null
 
     /**
@@ -76,8 +76,8 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
     }
 
     override fun setAdapter(adapter: Adapter<*>?) {
-        if (adapter is CommonRecyclerAdapter<*>) {
-            this.adapter = adapter as CommonRecyclerAdapter<T>
+        if (adapter is CommonRecyclerAdapter) {
+            this.adapter = adapter
             if (loadMoreFooter != null) {
                 adapter.addFooterView(loadMoreFooter!!.getContentView())
             }
@@ -126,7 +126,7 @@ class LoadMoreRecyclerView<T : Any> @JvmOverloads constructor(
         }
     }
 
-    override fun getAdapter(): CommonRecyclerAdapter<T>? {
+    override fun getAdapter(): CommonRecyclerAdapter? {
         return adapter
     }
 

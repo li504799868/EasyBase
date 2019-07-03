@@ -13,8 +13,9 @@
             >
         <activity android:name=".fragment.ListFragmentActivity">
         </activity>
-        <activity android:name=".adapter.CommonAdapterActivity">
+        <activity android:name=".adapter.CommonRecyclerAdapterActivity">
         </activity>
+        <activity android:name=".adapter.CommonBaseAdapterActivity"/>
         <activity android:name=".ListActivity">
         </activity>
         <activity android:name=".MainActivity">

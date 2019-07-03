@@ -2,14 +2,14 @@ package com.lzp.easybase.demo.fragment
 
 import android.os.Handler
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lzp.easybase.demo.adapter.StringRecyclerCell
+import com.lzp.easybase.demo.adapter.StringAdapterCell
 import com.lzp.easybase.fragment.BaseListFragment
 
 class ListFragment : BaseListFragment<Any>() {
 
     override fun initRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        registerRecyclerCell(1, String::class.java, StringRecyclerCell())
+        registerRecyclerCell(1, String::class.java, StringAdapterCell())
     }
 
     override fun requestPageIndex(page: Int, i: String) {

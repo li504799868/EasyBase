@@ -1,8 +1,9 @@
 package com.lzp.easybase.demo
 
 import android.content.Intent
-import com.lzp.easybase.demo.adapter.CommonAdapterActivity
 import com.lzp.easybase.activity.BaseNavigationActivity
+import com.lzp.easybase.demo.adapter.CommonBaseAdapterActivity
+import com.lzp.easybase.demo.adapter.CommonRecyclerAdapterActivity
 import com.lzp.easybase.demo.fragment.ListFragmentActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -12,7 +13,11 @@ class MainActivity : BaseNavigationActivity() {
         setBaseContentView(R.layout.activity_main)
 
         adapter.setOnClickListener {
-            startActivity(Intent(this@MainActivity, CommonAdapterActivity::class.java))
+            startActivity(Intent(this@MainActivity, CommonRecyclerAdapterActivity::class.java))
+        }
+
+        base_adapter.setOnClickListener {
+            startActivity(Intent(this@MainActivity, CommonBaseAdapterActivity::class.java))
         }
 
         list_activity.setOnClickListener {

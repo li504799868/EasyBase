@@ -1,18 +1,15 @@
 package com.lzp.easybase.demo.adapter
 
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lzp.easybase.activity.BaseNavigationActivity
-import com.lzp.easybase.adapter.CommonRecyclerAdapter
+import com.lzp.easybase.adapter.CommonBaseAdapter
 import com.lzp.easybase.demo.R
-import kotlinx.android.synthetic.main.activity_common_adapter.*
+import kotlinx.android.synthetic.main.activity_common_base_adapter.*
 
-class CommonAdapterActivity : BaseNavigationActivity() {
+class CommonBaseAdapterActivity : BaseNavigationActivity() {
 
     override fun initView() {
-        setBaseContentView(R.layout.activity_common_adapter)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = CommonRecyclerAdapter(
+        setBaseContentView(R.layout.activity_common_base_adapter)
+        val adapter = CommonBaseAdapter(
             this,
             arrayListOf(
                 "1111", "2222", "3333", "4444", "5555", R.mipmap.ic_launcher_round,
@@ -28,11 +25,11 @@ class CommonAdapterActivity : BaseNavigationActivity() {
 //            )
 
         )
-        adapter.addHeaderView(layoutInflater.inflate(R.layout.header, recyclerView, false))
-        adapter.addFooterView(layoutInflater.inflate(R.layout.footer, recyclerView, false))
-        adapter.registerRecyclerCell(0, String::class.java, StringRecyclerCell())
-        adapter.registerRecyclerCell(1, Integer::class.java, ImageRecyclerCell())
-        recyclerView.adapter = adapter
+        list_view.addHeaderView(layoutInflater.inflate(R.layout.header, list_view, false))
+        list_view.addFooterView(layoutInflater.inflate(R.layout.footer, list_view, false))
+        adapter.registerRecyclerCell(0, String::class.java, StringAdapterCell())
+        adapter.registerRecyclerCell(1, Integer::class.java, ImageAdapterCell())
+        list_view.adapter = adapter
     }
 
     override fun initData() {
